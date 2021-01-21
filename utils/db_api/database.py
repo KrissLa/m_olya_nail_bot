@@ -63,9 +63,7 @@ class DatabaseAPI:
     async def get_users(self):
         async with self.session.get(f'http://127.0.0.1:8000/api/v1/users/',
                                     headers={"Authorization": f"Bearer {self.token}"}) as resp:
-            print(resp.status)
             response = await resp.json()
-            print(response)
 
     async def can_be_invited(self, telegram_id):
         try:
@@ -105,4 +103,38 @@ class DatabaseAPI:
         """ Добавление ответа на вопрос """
         return await self.post_request(data, "questions/answer/")
 
+    async def get_services(self):
+        """ Получаем список активных услуг """
+        return await self.get_request("services/")
 
+    async def get_service(self, service_id):
+        """ Получаем полную информацию о сервисе """
+        return await self.get_request(f"services/{service_id}")
+
+    async def get_available_months(self):
+        """Получаем список месяцев, в которых есть доступные даты"""
+        return await self.get_request(f"dates/months/")
+
+    async def get_available_days(self, month: int):
+        """Получаем список дней, которые доступны"""
+        return await self.get_request(f"dates/months/{month}")
+
+    async def get_available_times(self, month: int, day: int):
+        """ Получаем список свободных окошек """
+        return await self.get_request(f'dates/months/{month}/{day}')
+
+    async def get_available_date(self, id):
+        """ Получаем время по id """
+        return await self.get_request(f'dates/{id}')
+
+    async def get_bonus_balance(self, telegram_id):
+        """ Получаем бонусный баланс пользователя """
+        return await self.get_request(f"users/get_bonus_balance/{telegram_id}")
+
+    async def get_user_cashback(self, telegram_id):
+        """ Получаем уровень кэшбэка пользователя """
+        return await self.get_request(f"users/get_cashback/{telegram_id}")
+
+    async def register_order(self, order_data):
+        """ Регистрируем заказ """
+        return await self.post_request(order_data, "orders/add/")

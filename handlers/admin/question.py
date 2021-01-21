@@ -3,17 +3,17 @@ from aiogram.types import CallbackQuery, Message
 from loguru import logger
 
 from keyboards.inline.callback_datas.questions import question_data
-from keyboards.inline.cancel import cancel_button
+from keyboards.inline.cancel import cancel_markup
 from loader import dp, bot, db
 from states.questions import Question
-from texts.question import answer
+from texts.question import answer, answer_to_user, answer_to_admin, answer_to_admin_error
 
 
 @dp.callback_query_handler(question_data.filter(), state=['*'])
 async def answer_the_question(call: CallbackQuery, state: FSMContext, callback_data: dict):
     """ Нажимаем кнопку для ответа на вопрос """
     await call.message.edit_reply_markup()
-    mess = await call.message.answer(answer, reply_markup=cancel_button)
+    mess = await call.message.answer(answer, reply_markup=cancel_markup)
     callback_data['message_id'] = mess['message_id']
     await state.update_data(data=callback_data)
     await Question.WaitAnswer.set()
@@ -29,6 +29,12 @@ async def get_answer(message: Message, state: FSMContext):
         "question_id": data['question_id'],
         'answer': message.text
     }
-    await state.finish()
-    await db.answer_the_question(data)
+    answer = await db.answer_the_question(data)
+    try:
+        await bot.send_message(answer['telegram_id'], answer_to_user.format(question_id=answer['question_id'],
+                                                                            question=answer['question'],
+                                                                            answer=answer['answer']))
+        await message.answer(answer_to_admin)
+    except Exception as e:
+        await message.answer(answer_to_admin_error)
     await state.finish()

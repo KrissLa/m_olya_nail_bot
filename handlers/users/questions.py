@@ -7,6 +7,7 @@ from data.config import ADMIN_ID
 from keyboards.default.menu import menu_keyboard
 from keyboards.inline.questions import keyboard_for_answer
 from loader import dp, db, bot
+from states.orders import Order
 from states.questions import Question
 from texts.question import get_message_after_question, question_to_admin
 
@@ -36,7 +37,10 @@ async def get_question(message: types.Message, state: FSMContext):
 
 
 @dp.callback_query_handler(text='cancel', state=[Question.WaitQuestion,
-                                                 Question.WaitAnswer])
+                                                 Question.WaitAnswer,
+                                                 Order.OrderService,
+                                                 Order.RegisterOrderWithoutBonus,
+                                                 Order.RegisterOrderWithBonus])
 async def cancel_question(call: CallbackQuery, state: FSMContext):
     """ Отмена отправки вопроса"""
     data = await state.get_data()

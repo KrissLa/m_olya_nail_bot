@@ -7,12 +7,22 @@ from loader import instagram_bot, db
 async def get_recent_images():
     picture_urls = []
     last_medias = instagram_bot.get_last_user_medias(INSTAGRAM_ID, count=10)
-    logger.info(len(last_medias))
+    # for l in last_medias:
+    #     llm = instagram_bot.get_media_info(l)
+    #     logger.info(llm[0]['caption'])
+    # logger.info(len(last_medias))
     for n in range(len(last_medias)):
         logger.info(n)
         try:
             comment = instagram_bot.get_media_comments(last_medias[n])[0]
+            # logger.info(instagram_bot.get_media_comments(last_medias[n]))
         except IndexError:
+            comment = None
+
+        if not comment or INSTAGRAM_KEY not in comment['text']:
+            comment = instagram_bot.get_media_info(last_medias[n])[0]['caption']
+        logger.info(comment)
+        if not comment:
             continue
         if INSTAGRAM_KEY in comment['text']:
             media_info = instagram_bot.get_media_info(last_medias[n])[0]

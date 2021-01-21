@@ -31,3 +31,17 @@ question_to_admin = """
 Новый вопрос от пользователя {username} № {question_id}!
 <pre>{question}</pre>
 """
+
+answer_to_user = """
+Ответ на Ваш вопрос № {question_id}\n 
+<code>- {question}</code>\n
+    <pre>- {answer}</pre>
+"""
+
+answer_to_admin = """
+Ответ успешно отправлен пользователю!
+"""
+
+answer_to_admin_error = """
+Не удалось отправить ответ пользователю!
+"""

@@ -28,6 +28,8 @@ INSTAGRAM_ID = int(os.getenv("INSTAGRAM_ID"))
 INSTAGRAM_KEY = "#маникюрминск"
 DEBUG = True
 
+SERVICE_ADDRESS = "Спортивная"
+
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 admins = [
