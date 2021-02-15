@@ -1,3 +1,5 @@
+from texts.emoji import pensive_em, success_em, error_em
+
 take_service = """
 Пожалуйста, выберите услугу.
 """
@@ -10,8 +12,8 @@ take_month = """
 Пожалуйста, выберите дату и время.
 """
 
-no_dates = """
-Извините, сейчас нет свободных дат.
+no_dates = f"""
+Извините, сейчас нет свободных дат. {pensive_em}
 """
 
 available_bonus = """
@@ -64,7 +66,7 @@ register_order_tx = """
 """
 
 new_order_to_admin_tx = """
-<b>Новый заказ № {order_id}!</b>
+{speaker_em} <b>Новый заказ № {order_id}!</b>
 Информация о заказе:
 <b>{service_name}</b>.
 <i>Стоимость:</i> <b>{total_price} BYN</b>.
@@ -86,7 +88,7 @@ register_order_with_bonus_tx = """
 """
 
 new_order_with_bonus_to_admin_tx = """
-<b>Новый заказ № {order_id}!</b>
+{speaker_em} <b>Новый заказ № {order_id}!</b>
 Информация о заказе:
 <b>{service_name}</b>.
 <i>Стоимость:</i> <b>{total_price} BYN</b>.
@@ -94,4 +96,24 @@ new_order_with_bonus_to_admin_tx = """
 <i>Дата:</i> <b>{order_date}</b>.
 <i>Акционная скидка:</i> <b>{discount} %</b>.
 <i>Бонусная скидка:</i> <b>{bonus_discount} ББ</b>
+"""
+
+order_completed_to_user_tx = """
+Спасибо! Ваш заказ № {order_id} успешно завершен! {blush_em}
+Вам начислено {bonus_amount} бонусных баллов.
+Пожалуйста, оцените работу мастера. 
+(В данный момент оценки и отзывы видны только администраторам, и используются для улучшения качества работы)
+"""
+
+add_rating_tx = f"""
+{success_em} Оценка добавлена! 
+Пожалуйста, напишите отзыв одним сообщением)
+"""
+
+thanks_tx = f"""
+{success_em} Спасибо за Ваш отзыв!
+"""
+
+has_active_orders_tx = f"""
+{error_em} У вас уже есть активная запись. Вы сможете сделать новый заказ только после завершения или отмены текущего. 
 """

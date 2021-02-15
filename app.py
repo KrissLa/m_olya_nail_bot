@@ -23,7 +23,7 @@ async def on_startup(dp):
     if not DEBUG:
         loader.instagram_bot.login(username=INSTAGRAM_USERNAME, password=INSTAGRAM_PASSWORD)
         await add_new_photo()
-        schedule_jobs()
+    schedule_jobs()
 
 async def on_shutdown(dp):
     await loader.session.close()

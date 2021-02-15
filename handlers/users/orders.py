@@ -8,6 +8,7 @@ from keyboards.inline.orders import mont_keyboard, generate_services_keyboard, d
     select_bonus_markup, register_order_markup, get_bonus_keyboard
 from loader import dp, db, bot
 from states.orders import Order
+from texts.emoji import speaker_em
 from texts.orders import take_month, no_dates, take_service, available_bonus, no_available_bonus, register_order_tx, \
     new_order_to_admin_tx, select_bonus_tx, take_bonus_tx, register_order_with_bonus_tx, \
     new_order_with_bonus_to_admin_tx
@@ -251,7 +252,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
             "bonus_discount_amount": 0,
             "bonus_discount_amount_BYN": 0,
             "bonus_points": data['get_bonus'],
-            "service_name": data['service_name']
+            "service_name": data['service_name'],
+            "service_time": data['service_time']
         }
     else:
         order_data = {
@@ -267,7 +269,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
             "bonus_discount_amount": data['bonus_amount'],
             "bonus_discount_amount_BYN": data['bonus_amount_BYN'],
             "bonus_points": data['get_bonus'],
-            "service_name": data['service_name']
+            "service_name": data['service_name'],
+            "service_time": data['service_time']
         }
     logger.info(order_data)
     order = await db.register_order(order_data)
@@ -280,7 +283,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
                                                                order_date=data['str_date'],
                                                                address=SERVICE_ADDRESS))
             await bot.send_message(chat_id=ADMIN_ID,
-                                   text=new_order_to_admin_tx.format(order_id=order['order_id'],
+                                   text=new_order_to_admin_tx.format(speaker_em=speaker_em,
+                                                                     order_id=order['order_id'],
                                                                      service_name=data['service_name'],
                                                                      service_time=data['service_time'],
                                                                      total_price=data['price'],
@@ -297,7 +301,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
                                                                           order_date=data['str_date'],
                                                                           address=SERVICE_ADDRESS))
             await bot.send_message(chat_id=ADMIN_ID,
-                                   text=new_order_with_bonus_to_admin_tx.format(order_id=order['order_id'],
+                                   text=new_order_with_bonus_to_admin_tx.format(speaker_em=speaker_em,
+                                                                                order_id=order['order_id'],
                                                                                 service_name=data['service_name'],
                                                                                 total_price=data['price_with_bonus'],
                                                                                 service_time=data['service_time'],

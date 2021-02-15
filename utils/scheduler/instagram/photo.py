@@ -1,10 +1,12 @@
+import asyncio
+
 from loguru import logger
 
 from data.config import INSTAGRAM_ID, INSTAGRAM_KEY
 from loader import instagram_bot, db
 
 
-async def get_recent_images():
+def get_recent_images():
     picture_urls = []
     last_medias = instagram_bot.get_last_user_medias(INSTAGRAM_ID, count=10)
     # for l in last_medias:
@@ -40,7 +42,8 @@ async def get_recent_images():
 
 async def add_new_photo():
     """Добавляем последние фото из instagram в базу данных"""
-    recent_images = await get_recent_images()
+    loop = asyncio.get_running_loop()
+    recent_images = await loop.run_in_executor(None, get_recent_images)
     recent_images.reverse()
     logger.info(recent_images)
     for ph in recent_images:

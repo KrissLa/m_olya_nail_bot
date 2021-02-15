@@ -1,7 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
-from loguru import logger
 
 from data.config import ADMIN_ID
 from keyboards.default.menu import menu_keyboard
@@ -9,6 +8,7 @@ from keyboards.inline.questions import keyboard_for_answer
 from loader import dp, db, bot
 from states.orders import Order
 from states.questions import Question
+from texts.emoji import speaker_em
 from texts.question import get_message_after_question, question_to_admin
 
 
@@ -23,7 +23,8 @@ async def get_question(message: types.Message, state: FSMContext):
     await message.answer(get_message_after_question(answer),
                          reply_markup=menu_keyboard)
     await bot.send_message(chat_id=ADMIN_ID,
-                           text=question_to_admin.format(question_id=answer["question_id"],
+                           text=question_to_admin.format(speaker_em=speaker_em,
+                                                         question_id=answer["question_id"],
                                                          username=message.from_user.full_name,
                                                          question=question),
                            reply_markup=keyboard_for_answer(telegram_id=message.from_user.id,

@@ -1,8 +1,10 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from loguru import logger
 
-from keyboards.inline.callback_datas.orders import order_service, month_data, day_data, time_data, bonus_data
+from keyboards.inline.callback_datas.orders import order_service, month_data, day_data, time_data, bonus_data, \
+    order_rating, user_order_cancel, user_order_cancel_confirm, user_back_to_order
 from keyboards.inline.cancel import cancel_button
+from texts.emoji import star_em
 from utils.orders.price import get_price_with_discount, rounding
 
 MONTHS = {
@@ -170,13 +172,13 @@ def days_keyboard(days, month):
                                        day_of_week=day["day_of_week"])
         )
         line_list.append(button)
-        if num % 3 == 0:
+        if num % 2 == 0:
             keyb.append(line_list)
             line_list = []
         elif num == max:
             keyb.append(line_list)
         num += 1
-    keyboard = InlineKeyboardMarkup(row_width=3, inline_keyboard=keyb)
+    keyboard = InlineKeyboardMarkup(row_width=2, inline_keyboard=keyb)
     keyboard.add(back_button)
     return keyboard
 
@@ -245,3 +247,70 @@ def _get_keyboard_data(data, service):
         'text': f"{service['name']} {data['price']} BYN ({service['time']})",
         'price': data['price']
     }
+
+
+def rating_keyboard(order_id):
+    """ Клавиатура для оценки заказа """
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text=f'{star_em}',
+                callback_data=order_rating.new(order_id=order_id, rating=1)
+            ),
+            InlineKeyboardButton(
+                text=f'{star_em * 2}',
+                callback_data=order_rating.new(order_id=order_id, rating=2)
+            ),
+            InlineKeyboardButton(
+                text=f'{star_em * 3}',
+                callback_data=order_rating.new(order_id=order_id, rating=3)
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text=f'{star_em * 4}',
+                callback_data=order_rating.new(order_id=order_id, rating=4)
+            ),
+            InlineKeyboardButton(
+                text=f'{star_em * 5}',
+                callback_data=order_rating.new(order_id=order_id, rating=5)
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text='Не хочу',
+                callback_data="cancel_rating"
+            )
+        ]
+    ])
+
+
+def cancel_order_keyboard(order_id):
+    """ Клавиатура для отмены заказа пользователем """
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text=f"Отменить заказ № {order_id}",
+                callback_data=user_order_cancel.new(order_id=order_id)
+            )
+        ]
+    ])
+
+
+def confirm_cancel_order_keyboard(order_id):
+    """ Клавиатура с подтверждением отмены заказа """
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(
+                text=f"Да, отменить заказ № {order_id}",
+                callback_data=user_order_cancel_confirm.new(order_id=order_id)
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="Нет, назад",
+                callback_data=user_back_to_order.new(order_id=order_id)
+            )
+        ]
+    ])
+

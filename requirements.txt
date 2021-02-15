@@ -10,6 +10,7 @@ certifi==2020.12.5
 chardet==3.0.4
 colorama==0.4.4
 decorator==4.4.2
+emoji==0.6.0
 future==0.18.2
 hiredis==1.1.0
 huepy==1.2.1
@@ -32,6 +33,7 @@ py==1.10.0
 pyparsing==2.4.7
 PySocks==1.7.1
 pytest==6.2.1
+python-dateutil==2.8.1
 python-dotenv==0.14.0
 pytz==2020.4
 requests==2.25.1

@@ -2,7 +2,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 
 class Order(StatesGroup):
-    """Стейты для вопросов пользователей"""
+    """Стейты при работе с заказом """
     OrderService = State()
     OrderMonth = State()
     OrderDay = State()
@@ -11,3 +11,7 @@ class Order(StatesGroup):
     RegisterOrderWithoutBonus = State()
     RegisterOrderWithBonus = State()
     SelectBonus = State()
+
+    WaitReview = State()
+    CancelOrder = State()
+    ConfirmCancelOrder = State()
