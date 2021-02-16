@@ -28,7 +28,7 @@ INSTAGRAM_ID = int(os.getenv("INSTAGRAM_ID"))
 INSTAGRAM_KEY = "#маникюрминск"
 DEBUG = False
 
-SERVICE_ADDRESS = "Спортивная Минск"
+SERVICE_ADDRESS = "Метро Спортивная, ул. Жудро, 53-101 (в лифте 9 этаж)"
 
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 

@@ -17,8 +17,6 @@ class DatabaseAPI:
                                      data={"username": self.user,
                                            "password": self.password}) as resp:
             resp = await resp.json()
-            print(resp)
-            print(resp['access'])
             self.token = resp['access']
             return self.token
 
@@ -55,21 +53,6 @@ class DatabaseAPI:
     async def registration(self, data):
         """ Регистрация пользователя """
         return await self.post_request(data, "users/registration/")
-
-    async def get_users(self):
-        async with self.session.get(f'http://127.0.0.1:8000/api/v1/users/',
-                                    headers={"Authorization": f"Bearer {self.token}"}) as resp:
-            response = await resp.json()
-
-    async def can_be_invited(self, telegram_id):
-        try:
-            async with self.session.get(f'http://127.0.0.1:8000/api/v1/users/can_be_invited/{telegram_id}',
-                                        headers={"Authorization": f"Bearer {self.token}"}) as resp:
-                response = await resp.json()
-                return response['can_be_invited']
-        except Exception as err:
-            logger.error(err)
-            return True
 
     async def get_instagram_pictures(self):
         """Получаем последние фотографии из инстаграм"""

@@ -37,7 +37,7 @@ async def bot_start_with_code(message: types.Message):
 @dp.message_handler(CommandStart(), IsNotRegistered())
 async def bot_start(message: types.Message):
     """
-    Приветствие при первом нажатии кнопки старт без пригласительного кода
+    Приветствие при первом нажатии кнопки старт
     """
     bot_user = await dp.bot.get_me()
     deep_link = message.get_args()
@@ -79,3 +79,25 @@ async def bot_start(message: types.Message):
                                                        bot_username=bot_user.username,
                                                        user_id=message.from_user.id),
                              reply_markup=menu_keyboard)
+
+
+@dp.message_handler(IsNotRegistered())
+async def not_registered_users(message: types.Message):
+    """
+    Ловим не зарегистрированных пользователей
+    """
+    bot_user = await dp.bot.get_me()
+    data = {
+        "telegram_id": message.from_user.id,
+        "name": message.from_user.full_name,
+    }
+    if message.from_user.username:
+        data['username'] = f"@{message.from_user.username}"
+    logger.info(data)
+    register_data = await db.registration(data)
+    await message.answer(hello_without_code.format(simple_smile_em=simple_smile_em,
+                                                   name=register_data['name'],
+                                                   bonus_point=register_data['bonus_balance'],
+                                                   bot_username=bot_user.username,
+                                                   user_id=message.from_user.id),
+                         reply_markup=menu_keyboard)

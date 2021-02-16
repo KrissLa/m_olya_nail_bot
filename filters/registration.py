@@ -3,6 +3,16 @@ from aiogram.dispatcher.filters import BoundFilter
 from loguru import logger
 
 from loader import db
+from utils.misc import rate_limit
+
+
+@rate_limit(60)
+class IsBannedMessage(BoundFilter):
+    async def check(self, message: types.Message):
+        """Заблокированные пользователи """
+        res = await db.get_user_profile(message.from_user.id)
+        logger.info(res)
+        return res['is_banned']
 
 
 class CanBeInvited(BoundFilter):

@@ -5,9 +5,16 @@ from aiogram.types import Message
 from loguru import logger
 
 from data.config import ADMIN_ID
+from filters.registration import IsBannedMessage
 from keyboards.default.menu import menu_keyboard
 from loader import dp
 from utils.misc import rate_limit
+
+
+@dp.message_handler(IsBannedMessage())
+async def banned(message: Message):
+    """ Заблокированные пользователи """
+    await message.answer("Вы заблокированы!")
 
 
 @dp.message_handler(commands='restart', state=['*'])
