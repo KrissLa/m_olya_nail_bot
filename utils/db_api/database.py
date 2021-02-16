@@ -1,7 +1,7 @@
 from loguru import logger
 
 import loader
-from data.config import ADDRESS_API
+from data.config import ADDRESS_API, ADDRESS
 
 
 class DatabaseAPI:
@@ -13,7 +13,7 @@ class DatabaseAPI:
         self.address_api = ADDRESS_API
 
     async def get_token(self):
-        async with self.session.post(f'http://127.0.0.1:8000/api/token/',
+        async with self.session.post(f'{ADDRESS}api/token/',
                                      data={"username": self.user,
                                            "password": self.password}) as resp:
             resp = await resp.json()

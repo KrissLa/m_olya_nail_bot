@@ -26,9 +26,9 @@ INSTAGRAM_USERNAME = str(os.getenv("INSTAGRAM_USERNAME"))
 INSTAGRAM_PASSWORD = str(os.getenv("INSTAGRAM_PASSWORD"))
 INSTAGRAM_ID = int(os.getenv("INSTAGRAM_ID"))
 INSTAGRAM_KEY = "#маникюрминск"
-DEBUG = True
+DEBUG = False
 
-SERVICE_ADDRESS = "Спортивная"
+SERVICE_ADDRESS = "Спортивная Минск"
 
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
