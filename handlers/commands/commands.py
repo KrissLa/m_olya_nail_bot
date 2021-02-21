@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import InputMediaPhoto, CallbackQuery
 from loguru import logger
 
+from data.config import SERVICE_ADDRESS, ADMIN_PHONE_NUMBER
 from filters.orders import HasActiveOrders
 from keyboards.default.menu import menu_keyboard
 from keyboards.inline.bonuses import bonus_keyboard
@@ -147,7 +148,9 @@ async def get_active_orders(message: types.Message, state: FSMContext):
                                                            service_time=o['service_time'],
                                                            discounts=discounts,
                                                            bonus_points=o['bonus_points'],
-                                                           total_price=o['total_price']),
+                                                           total_price=o['total_price'],
+                                                           address=SERVICE_ADDRESS,
+                                                           phone=ADMIN_PHONE_NUMBER),
                                         reply_markup=cancel_order_keyboard(o['id']))
             mess_orders.append(mess['message_id'])
         await state.update_data(mess_orders=mess_orders)

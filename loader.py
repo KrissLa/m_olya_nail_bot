@@ -13,11 +13,6 @@ from data.config import INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 storage = RedisStorage2(host=config.REDIS_HOST, password=config.REDIS_PASS)
 dp = Dispatcher(bot, storage=storage)
-#try:
-#    path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config')
-#    shutil.rmtree(path)
-#except Exception:
-#    pass
 instagram_bot = InstaBot()
 instagram_bot.login(username=INSTAGRAM_USERNAME, password=INSTAGRAM_PASSWORD)
 

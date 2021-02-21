@@ -63,6 +63,7 @@ register_order_tx = """
 <i>Время выполнения:</i> <b>{service_time}</b>.
 <i>Дата:</i> <b>{order_date}</b>.
 <i>Адрес:</i> {address}.
+<i>Номер телефона мастера:</i> {phone}.
 """
 
 new_order_to_admin_tx = """
@@ -85,6 +86,7 @@ register_order_with_bonus_tx = """
 <i>Время выполнения:</i> <b>{service_time}</b>.
 <i>Дата:</i> <b>{order_date}</b>.
 <i>Адрес:</i> {address}.
+<i>Номер телефона мастера:</i> {phone}.
 """
 
 new_order_with_bonus_to_admin_tx = """

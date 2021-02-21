@@ -30,6 +30,7 @@ DEBUG = False
 
 SERVICE_ADDRESS = "Метро Спортивная, ул. Жудро, 53-101 (в лифте 9 этаж)"
 
+ADMIN_PHONE_NUMBER = "+375295857105"
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 admins = [

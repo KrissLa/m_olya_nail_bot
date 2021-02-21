@@ -2,7 +2,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import CallbackQuery
 from loguru import logger
 
-from data.config import SERVICE_ADDRESS, ADMIN_ID
+from data.config import SERVICE_ADDRESS, ADMIN_ID, ADMIN_PHONE_NUMBER
 from keyboards.inline.callback_datas.orders import order_service, month_data, day_data, time_data, bonus_data
 from keyboards.inline.orders import mont_keyboard, generate_services_keyboard, days_keyboard, time_keyboard, \
     select_bonus_markup, register_order_markup, get_bonus_keyboard
@@ -281,7 +281,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
                                                                service_time=data['service_time'],
                                                                total_price=data['price'],
                                                                order_date=data['str_date'],
-                                                               address=SERVICE_ADDRESS))
+                                                               address=SERVICE_ADDRESS,
+                                                               phone=ADMIN_PHONE_NUMBER))
             await bot.send_message(chat_id=ADMIN_ID,
                                    text=new_order_to_admin_tx.format(speaker_em=speaker_em,
                                                                      order_id=order['order_id'],
@@ -299,7 +300,8 @@ async def register_order(call: CallbackQuery, state: FSMContext):
                                                                           bonus_amount=data['bonus_amount'],
                                                                           service_time=data['service_time'],
                                                                           order_date=data['str_date'],
-                                                                          address=SERVICE_ADDRESS))
+                                                                          address=SERVICE_ADDRESS,
+                                                                          phone=ADMIN_PHONE_NUMBER))
             await bot.send_message(chat_id=ADMIN_ID,
                                    text=new_order_with_bonus_to_admin_tx.format(speaker_em=speaker_em,
                                                                                 order_id=order['order_id'],

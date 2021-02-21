@@ -9,6 +9,8 @@ my_order_tx = """
 <i>Время работы:</i> <b>{service_time}</b>.{discounts}
 <i>После завершения будет начислено</i> <b>{bonus_points}</b> ББ.
 <i>Итоговая стоимость:</i> <b>{total_price} BYN</b>.
+<i>Адрес:</i> {address}.
+<i>Номер телефона мастера:</i> {phone}.
 """
 
 cancel_order_user_tx = """
