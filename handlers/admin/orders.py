@@ -207,7 +207,10 @@ async def send_order_confirmation(call: CallbackQuery, state: FSMContext, callba
     logger.info(data)
     logger.info(callback_data)
     await call.message.delete()
-    await bot.delete_message(chat_id=call.from_user.id, message_id=data['message_id'])
+    try:
+        await bot.delete_message(chat_id=call.from_user.id, message_id=data['message_id'])
+    except Exception:
+        pass 
     resp = await db.confirm_order(int(callback_data['order_id']))
     if resp['status'] == 'canceled':
         await call.message.answer(confirm_order_error_cancelled_tx.format(error_em=error_em,

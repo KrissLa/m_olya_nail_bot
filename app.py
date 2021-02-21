@@ -1,5 +1,6 @@
 from aiogram import executor
 
+from loguru import logger
 import filters
 import loader
 import middlewares
@@ -21,13 +22,14 @@ async def on_startup(dp):
     await loader.db.get_token()
 
     if not DEBUG:
-        loader.instagram_bot.login(username=INSTAGRAM_USERNAME, password=INSTAGRAM_PASSWORD)
+        # loader.instagram_bot.login(username=INSTAGRAM_USERNAME, password=INSTAGRAM_PASSWORD)
         await add_new_photo()
-    schedule_jobs()
+        schedule_jobs()
 
 
 async def on_shutdown(dp):
     await loader.session.close()
+    loader.instagram_bot.logout()
     try:
         await loader.bot.send_message(ADMIN_ID, "Бот остановлен! Возможно, произошла ошибка!")
     except Exception:
