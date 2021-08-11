@@ -4,7 +4,7 @@ from loguru import logger
 import filters
 import loader
 import middlewares
-from data.config import INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD, DEBUG, ADMIN_ID
+from data.config import DEBUG, ADMIN_ID
 from handlers import dp
 from utils.notify_admins import on_startup_notify
 from utils.scheduler.instagram.photo import add_new_photo
@@ -29,7 +29,8 @@ async def on_startup(dp):
 
 async def on_shutdown(dp):
     await loader.session.close()
-    loader.instagram_bot.logout()
+    if not DEBUG:
+        loader.instagram_bot.logout()
     try:
         await loader.bot.send_message(ADMIN_ID, "Бот остановлен! Возможно, произошла ошибка!")
     except Exception:

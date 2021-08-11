@@ -2,8 +2,10 @@ import asyncio
 
 from loguru import logger
 
-from data.config import INSTAGRAM_ID, INSTAGRAM_KEY
-from loader import instagram_bot, db
+from data.config import DEBUG
+if not DEBUG:
+    from data.config import INSTAGRAM_ID, INSTAGRAM_KEY
+    from loader import instagram_bot, db
 
 
 def get_recent_images():
